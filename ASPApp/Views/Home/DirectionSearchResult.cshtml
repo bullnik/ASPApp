@@ -1,0 +1,22 @@
+﻿@model IEnumerable<DirectionSearchResult>
+
+<div id="searchresults">
+    <ul class="list-group p-3">
+        @foreach (DirectionSearchResult item in Model)
+        {
+            <li class="list-group-item">
+                <input class="form-check-input me-1" type="checkbox" value="" id="directionCheckbox"
+                   onclick="myFunction()">
+                <label class="form-check-label" for="directionCheckbox">@item.Value</label>
+                @if (item.Type == SkillType.Skill) 
+                {
+                    <span class="badge bg-primary ">Skill</span>
+                }
+                @if (item.Type == SkillType.Knowledge)
+                {
+                    <span class="badge bg-success ">Knowledge</span>
+                }
+            </li>
+        }
+    </ul>
+</div>
