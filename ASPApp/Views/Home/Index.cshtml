@@ -10,7 +10,7 @@
         <button id="dirsearch" type="button" class="btn btn-outline-primary">Search</button>
     </div>
 
-    <div class="text-center p-3 mb-3">
+    <div id="spinner_dir_search_res" class="text-center p-3 mb-3" style="display:none">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
@@ -18,7 +18,7 @@
 
     <div id="dirsearchresults"></div>
 
-    <div class="text-center p-3 mb-3">
+    <div id="spinner_req_search_res" class="text-center p-3 mb-3" style="display:none">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
@@ -33,28 +33,29 @@
         $(document).ready(function () {
             $('#dirsearch').click(function (e) {
                 e.preventDefault();
-                var name = $('#search').val();
-                console.log(name);
-                $('#dirsearchresults').load('@Url.Action("SearchDirection", "Home")?request=' + name)
+                var request = $('#search').val();
+                var elems = $('#spinner_dir_search_res');
+                for (var i = 0; i < elems.length; i++)elems[i].style.display = 'block';
+                $('#dirsearchresults').load('@Url.Action("SearchDirection", "Home")?request=' + request, function () {
+                    for (var i = 0; i < elems.length; i++)elems[i].style.display = 'none'; 
+                    registerCheckboxHandler();
+                });
             });
         });
-    </script>
 
-    <script>
-        $(document).ready(function () {
-            $('#directionCheckbox').click(function (e) {
-                e.preventDefault();
-                var name = $('#search').val();
-                console.log(name);
-                $('#reqsearchresults').load('@Url.Action("SearchRequirement", "Home")?request=' + name)
+        function registerCheckboxHandler() {
+            $('.jibka').on('change', function () {
+                if (!this.checked) {
+                    return;
+                }
+                var request = '';
+                var elems = $('#spinner_req_search_res');
+                for (var i = 0; i < elems.length; i++)elems[i].style.display = 'block';
+                $('#reqsearchresults').load('@Url.Action("SearchRequirement", "Home")?request=' + request, 
+                function () {
+                    for (var i = 0; i < elems.length; i++)elems[i].style.display = 'none';
+                });
             });
-        });
-    </script>
-
-    <script>
-        function myFunction() {
-            var checkBox = document.getElementById("directionCheckbox");
-            $('#reqsearchresults').load('@Url.Action("SearchRequirement", "Home")?request=' + name)
         }
     </script>
 }

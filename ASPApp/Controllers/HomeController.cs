@@ -32,7 +32,7 @@ namespace ASPApp.Controllers
             return PartialView("DirectionSearchResult", result);
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }
