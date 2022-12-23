@@ -2,6 +2,11 @@
 {
     public class AIModelMockAPI : IAIModelAPI
     {
+        public ContainerForResultRenameIt GetContainerForResultRenameIt(string request, string crdcModelName, string nerModelName, string maskModelName, int resultCount)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<DirectionSearchResult> GetDirections(string request)
         {
             Thread.Sleep(1500);

@@ -1,0 +1,59 @@
+﻿@model ContainerForResultRenameIt
+
+<div id="searchresults">
+    <ul class="list-group p-3">
+        @foreach (var mtr in Model.MaskedTextResultsRenameIt)
+        {
+            <li class="list-group-item">
+                <input class="form-check-input me-1" type="checkbox" value="">
+
+                @if (mtr.CrdcDistribution.DutiesScore > 0.5)
+                {
+                    <span class="badge bg-info">Duties</span>
+                }
+                else if (mtr.CrdcDistribution.RequirementsScore > 0.5)
+                {
+                    <span class="badge bg-info">Requirements</span>
+                }
+                else if (mtr.CrdcDistribution.ConditionsScore > 0.5)
+                {
+                    <span class="badge bg-info">Conditions</span>
+                }
+                else
+                {
+                    <span class="badge bg-info">Common</span>
+                }
+
+                @if (mtr.NerKsTokens.Count == 0)
+                {
+                    <label class="form-check-label" for="directionCheckbox">
+                        @mtr.MaskFilledText.Sequence
+                    </label>
+                }
+                else if (mtr.NerKsTokens[0].StartIndex != 0)
+                {
+                    <label class="form-check-label" for="directionCheckbox"> 
+                        @mtr.MaskFilledText.Sequence.Substring(0, mtr.NerKsTokens[0].StartIndex)
+                    </label>
+                }
+
+                @for (int i = 0; i < mtr.NerKsTokens.Count; i++)
+                {
+                    <label class="form-check-label" for="directionCheckbox">
+                        @mtr.MaskFilledText.Sequence.Substring(mtr.NerKsTokens[i].StartIndex, 
+                            mtr.NerKsTokens[i].EndIndex - mtr.NerKsTokens[i].StartIndex)
+                    </label>
+                    @if (mtr.NerKsTokens[i].EntityGroup.Equals("skill"))
+                    {
+                        <span class="badge bg-primary ">Skill</span>
+                    }
+                    @if (mtr.NerKsTokens[i].EntityGroup.Equals("knowledge"))
+                    {
+                        <span class="badge bg-success ">Knowledge</span>
+                    }
+                }
+
+            </li>
+        }
+    </ul>
+</div>

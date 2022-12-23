@@ -2,7 +2,11 @@
 {
     public interface IAIModelAPI
     {
-        public IEnumerable<DirectionSearchResult> GetDirections(string request);
-        public IEnumerable<RequirementSearchResult> GetRequirements(string request);
+        public ContainerForResultRenameIt GetContainerForResultRenameIt(
+            string request,
+            string crdcModelName,
+            string nerModelName,
+            string maskModelName,
+            int resultCount);
     }
 }

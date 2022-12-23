@@ -10,52 +10,38 @@
         <button id="dirsearch" type="button" class="btn btn-outline-primary">Search</button>
     </div>
 
-    <div id="spinner_dir_search_res" class="text-center p-3 mb-3" style="display:none">
+    <div id="spinner_mask_search" class="text-center p-3 mb-3" style="display:none">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
 
-    <div id="dirsearchresults"></div>
-
-    <div id="spinner_req_search_res" class="text-center p-3 mb-3" style="display:none">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-
-    <div id="reqsearchresults"></div>
+    <div id="mask_search_results"></div>
 
 </div>
 
 @section Scripts {
     <script>
+
         $(document).ready(function () {
             $('#dirsearch').click(function (e) {
                 e.preventDefault();
-                var request = $('#search').val();
-                var elems = $('#spinner_dir_search_res');
-                for (var i = 0; i < elems.length; i++)elems[i].style.display = 'block';
-                $('#dirsearchresults').load('@Url.Action("SearchDirection", "Home")?request=' + request, function () {
-                    for (var i = 0; i < elems.length; i++)elems[i].style.display = 'none'; 
-                    registerCheckboxHandler();
-                });
+                sendRequest()
             });
         });
 
-        function registerCheckboxHandler() {
-            $('.jibka').on('change', function () {
-                if (!this.checked) {
-                    return;
-                }
-                var request = '';
-                var elems = $('#spinner_req_search_res');
-                for (var i = 0; i < elems.length; i++)elems[i].style.display = 'block';
-                $('#reqsearchresults').load('@Url.Action("SearchRequirement", "Home")?request=' + request, 
-                function () {
-                    for (var i = 0; i < elems.length; i++)elems[i].style.display = 'none';
-                });
+        async function sendRequest() {
+            var elems = $('#spinner_mask_search');
+            for (var i = 0; i < elems.length; i++)elems[i].style.display = 'block';
+
+            var request = $('#search').val();
+            const a = request.replaceAll(" ", "JIBAJIBAJIBA")
+            const response = '@Url.Action("MaskSuggestions", "Home")?request=' + a;
+
+            $('#mask_search_results').load(response, function () {
+                for (var i = 0; i < elems.length; i++)elems[i].style.display = 'none';
             });
         }
+
     </script>
 }

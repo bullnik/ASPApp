@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<IAIModelAPI, AIModelMockAPI>();
+builder.Services.AddSingleton<IAIModelAPI, AIModelAPI>();
 
 var app = builder.Build();
 

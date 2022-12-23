@@ -20,16 +20,16 @@ namespace ASPApp.Controllers
             return View();
         }
 
-        public IActionResult SearchRequirement(string request)
+        public IActionResult MaskSuggestions(string request,
+            string crdcModelName = "final_model_DeepPavlov_rubert-base-cased-finetuned-vacancies_5epoch_300k_-timur_classification_CRDC_1000000_1epoch_final",
+            string nerModelName = "RuBERT_NER_KNOWLEDGE_SKILLS_100000_3_eps_FINAL",
+            string maskModelName = "final_model_DeepPavlov_rubert-base-cased-finetuned-vacancies_5epoch_300k_-timur",
+            int resultCount = 5)
         {
-            var result = _aiModelAPI.GetRequirements("JIBA");
-            return PartialView("RequirementSearchResult", result);
-        }
-
-        public IActionResult SearchDirection(string request)
-        {
-            var result = _aiModelAPI.GetDirections(request);
-            return PartialView("DirectionSearchResult", result);
+            request = request.Replace("JIBAJIBAJIBA", " ");
+            var result = _aiModelAPI.GetContainerForResultRenameIt(request, 
+                crdcModelName, nerModelName, maskModelName, resultCount);
+            return PartialView("MaskFillingSuggestions", result);
         }
 
         public IActionResult About()
